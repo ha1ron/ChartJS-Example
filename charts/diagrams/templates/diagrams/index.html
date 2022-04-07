@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Графики</title>
+  <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- графики -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script><!-- плагин для графиков -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script> <!-- ПДФ -->
+
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script><!-- таблица -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+</head>
+<style>
+  .vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 200px rgba(0,0,0,0.9) inset;
+  z-index: -1000;
+}
+.svg_top{
+  width: 100%;
+}
+.title{
+/*background-color: #32B748;*/
+background-color: rgba(0,0,24, 1);
+max-width: 75%;
+padding: 20px;
+margin-top: 40px;
+border: 12px double #b78846;
+color: white;
+font-family: Franklin Gothic Medium;
+}
+.title_sub{
+max-width: 75%;
+padding: 20px;
+margin-top: 40px;
+margin-bottom: 20px;
+border-top: 12px solid #780000;
+border-bottom: 12px solid #780000;
+/*color: white;*/
+font-family: Franklin Gothic Medium;
+}
+
+</style>
+
+<body>
+<!--<div class="vignette"></div>-->з
+  <div class="container" id="container">
+
+    <img class="svg_top" src="{% static 'svg/decorative-line.svg' %}">
+
+    <div class="title col-md-8 offset-md-2">
+
+    <h1 style="text-align: center">Графики, демонстрация</h1>
+    </div>
+    <img class="svg_top" src="{% static 'svg/line_bot.svg' %}">
+
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h1 style="text-align: center">Доходы и расходы по группам грузов</h1>
+    </div>
+    <table>
+    <tr>
+      <td style="text-align: left; font-size: 30px; "><b>Выручка</b> <br> млрд.руб</td>
+      <td style="text-align: left; font-size: 30px; "><b>Расходы</b> <br> млрд.руб</td>
+      <td style="text-align: left; font-size: 30px; "><b>Финансовый результат</b> <br> млрд.руб</td>
+      <td style="text-align: left; font-size: 30px; "><b>Рентабельность</b> <br> %</td>
+    </tr>
+
+    <tr>
+      <td style="width: 350px; height: 150px;">
+        <div style="width: 100%; font-size: 30px;">
+          <canvas id="pie-chart1"></canvas>
+        </div>
+      </td>
+      <td style="width: 350px; height: 150px;">
+        <div style="width: 100%; font-size: 30px;">
+          <canvas id="pie-chart2"></canvas>
+        </div>
+      </td>
+      <td style="width: 350px; height: 150px;">
+        <div style="width: 100%; font-size: 30px;">
+          <canvas id="pie-chart3"></canvas>
+        </div>
+      </td>
+      <td style="width: 350px; height: 150px;">
+        <div style="width: 100%;">
+          <canvas id="pie-chart4"></canvas>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center; color: gray; ">+6%</td>
+      <td style="text-align: center; color: gray; ">+6%</td>
+      <td style="text-align: center; color: gray; ">+12%</td>
+    </tr>
+  </table>
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h2 style="text-align: center">Структура выручки и расходов по укрупненным категориям грузов</h2>
+    </div>
+    <div style="width: 100%;">
+      <canvas id="pie-chart5"></canvas>
+    </div>
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h2 style="text-align: center">Вклад перевозок отдельных грузов в финансовый результат ОАО "РЖД"</h2>
+    </div>
+
+    <div style="width: 100%;">
+      <canvas id="pie-chart6"></canvas>
+    </div>
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h2 style="text-align: center">Факторы изменения выручки и расходов по всем категориям грузов</h2>
+    </div>
+    <table>
+      <tr>
+        <td style="text-align: left; font-size: 30px; ">Тарифная выручка по всем грузам</td>
+        <td style="text-align: left; font-size: 30px; ">Расходы по всем грузам</td>
+      </tr>
+      <tr>
+        <td style="width: 600px; height: 25python manage.py runserver0px;">
+          <div style="width: 100%;">
+            <canvas id="pie-chart7"></canvas>
+          </div>
+        </td>
+        <td style="width: 600px; height: 25python manage.py runserver0px;">
+          <div style="width: 100%;">
+            <canvas id="pie-chart8"></canvas>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h2 style="text-align: center">Топ-10 прибыльных и убыточных маршрутов (финансовый результат, млн руб.)</h2>
+    </div>
+
+    <div class="row" style="width: 100%;">
+      <div class="col">
+        <div style="width: 100%;">
+        <canvas id="pie-chart9"></canvas>
+      </div></div>
+      <div class="col">
+        <div style="width: 100%;">
+          <canvas id="pie-chart10"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h2 style="text-align: center">Топ-10 крупнейших маршрутов по выручке</h2>
+    </div>
+    <div style="width: 100%;">
+      <canvas id="pie-chart11"></canvas>
+    </div>
+
+    <div class="title_sub col-md-8 offset-md-2">
+    <h2 style="text-align: center">Мониторинг расходов в пределах крупнейших малоинтенсивных линий</h2>
+    </div>
+    <div style="width: 100%;">
+      <canvas id="pie-chart12"></canvas>
+    </div>
+    <div class="row" style="width: 100%;">
+      <div class="col">
+        <button id="rnd_color" type="button" class="btn btn-primary"> Рандомный цвет </button> 
+        <button id="rnd_data" type="button" class="btn btn-primary"> Рандомные данные </button>
+        <button id="barPDF" type="button" class="btn btn-primary"> Скачать в ПДФ </button>         
+      </div>
+    </div>
+
+    <div class="title_sub col-md-8 offset-md-2">
+      <h2 style="text-align: center">Малоинтенсивные линии <br> (расходы в пределах линий)</h2>
+    </div>
+    <div style="width: 80%; margin: auto">
+      <canvas id="pie-chart13"></canvas>
+    </div>
+
+    <div class="title_sub col-md-8 offset-md-2">
+      <h2 style="text-align: center">Таблица jquery</h2>
+    </div>
+    <table id="example" class="display" style="width:100%">
+      <thead>
+      <tr>
+        <th>Текст</th>
+        <th>Текст</th>
+        <th>Текст</th>
+        <th>Номер</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for items in table %}
+      <tr>
+        <td>{{ items.col1 }}</td>
+        <td>{{ items.col2 }}</td>
+        <td>{{ items.col3 }}</td>
+        <td>{{ items.col4 }}</td>
+      </tr>
+      {% endfor %}
+
+
+      </tbody>
+      <tfoot>
+      <tr>
+        <th>Текст</th>
+        <th>Текст</th>
+        <th>Текст</th>
+        <th>Номер</th>
+      </tr>
+      </tfoot>
+    </table>
+    <div style="width: 100%; margin: auto">
+    </div>
+
+  </div>
+
+
+  <div class="container-fluid" style="background-color: #b700ff; text-align: center;">
+  <a href="#" id="downloadPdf" style="color: white; font-size: 25px;" >Скачать все графики в ПДФ</a>
+  </div>
+
+  <script>
+
+    var config = {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: {{ data_gain | safe }},
+          backgroundColor: [ '#696969', '#00C03A' ],
+          label: 'Population'
+        }],
+        labels: {{ labels_gain | safe }}
+      },
+      plugins: [ChartDataLabels],
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: false
+            },
+            display: false            
+          }          
+        },
+        plugins: {          
+          legend: {
+            display: false
+          },
+          datalabels: {
+            color: 'white',
+            anchor: 'end',
+            align: 'bottom',
+            offset: 10
+          }
+        }
+      }
+    };
+
+    var bar_orange = {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: {{ data_cost | safe }},
+          backgroundColor: [ '#696969', '#FF8C00' ],
+          label: 'Population'
+        }],
+        labels: {{ labels_cost | safe }}
+      },
+      plugins: [ChartDataLabels],
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: false
+            },
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          datalabels: {
+            color: 'white',
+            anchor: 'end',
+            align: 'bottom',
+            offset: 10
+          }
+        }
+      }
+    };
+
+    var bar_fin_res = {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: {{ data_fin_res | safe }},
+          backgroundColor: [ '#696969', '#00C03A' ],
+          label: 'Population'
+        }],
+        labels: {{ labels_fin_res | safe }}
+      },
+      plugins: [ChartDataLabels],
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: false
+            },
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          datalabels: {
+            color: 'white',
+            anchor: 'end',
+            align: 'bottom',
+            offset: 10
+          }
+        }
+      }
+    };
+
+    var bar_rent = {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: {{ data_rent | safe }},
+          backgroundColor: [ '#696969', '#00C03A' ],
+          label: 'Population'
+        }],
+        labels: {{ labels_rent | safe }}
+      },
+      plugins: [ChartDataLabels],
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: false
+            },
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          datalabels: {
+            color: 'white',
+            anchor: 'end',
+            align: 'bottom',
+            offset: 10
+          }
+        }
+      }
+    };
+
+    var bar_cargo = {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: {{ data_cargo_gain | safe }},
+          backgroundColor: '#00C03A',
+          label: 'Выручка, млрд руб'
+        },
+        {
+          data: {{ data_cargo_cost | safe }},
+          backgroundColor: '#FF8C00',
+          label: 'Расходы, млрд руб'
+        }],
+        labels: {{ labels_cargo | safe }}
+      },
+      plugins: [ChartDataLabels],
+      options: {
+      indexAxis: 'y',
+        elements: {
+          bar: {
+            borderWidth: 2,
+          }
+        },
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        datalabels: {
+            color: 'black',
+            anchor: 'end',
+            align: 'right',
+            offset: 3,
+        },
+        title: {
+          display: false,
+          text: 'Chart.js Horizontal Bar Chart'
+        }
+      }
+    },
+    };
+
+    var line_ch = {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: {{ data_line | safe }},
+          backgroundColor: '#26B0FF',
+          label: 'Вклад перевозок, млрд',
+          borderColor: '#26B0FF',
+          stepped: 'middle'
+        }],
+        labels: {{ labels_cargo | safe }}
+      },
+      plugins: [ChartDataLabels],
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+        datalabels: {
+          color: 'black',
+          anchor: 'center',
+          align: 'top',
+          offset: 3,
+        },
+        title: {
+          display: false,
+        }
+      }
+     },
+   };
+
+  var gain_all = {type: 'bar',
+    data: {
+        datasets: [{
+          data: {{ data_gain_all_1 | safe }},
+          backgroundColor: 'gray',//'#26B0FF',
+          label: 'млрд',
+          borderColor: '#26B0FF',
+        },
+        {
+          data: {{ data_gain_all_2 | safe }},
+          backgroundColor: '#00C03A',
+          label: 'млрд'
+        }],
+        labels: {{ labels_gain_all | safe }}
+      },
+    plugins: [ChartDataLabels],
+    options: {
+      plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Bar Chart - Stacked'
+        },
+        datalabels: {
+          color: 'black',
+          anchor: 'center',
+          align: 'start',
+          offset: 0,
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          grid: {
+            display: false
+          },
+          display: false,
+          stacked: true
+        }
+      }
+    }
+  };
+
+  var cost_all = {
+    type: 'bar',
+    data: {
+        datasets: [{
+          data: {{ data_cost_all_1 | safe }},
+          backgroundColor: 'gray',//'#26B0FF',
+          label: 'млрд',
+          borderColor: '#26B0FF',
+        },
+        {
+          data: {{ data_cost_all_2 | safe }},
+          backgroundColor: '#FF8C00',
+          label: 'млрд',
+          borderColor: '#FF8C00',
+        }],
+        labels: {{ labels_cost_all | safe }}
+      },
+    plugins: [ChartDataLabels],
+    options: {
+      plugins: {
+        title: {
+          display: false,
+          text: 'Chart.js Bar Chart - Stacked'
+        },
+        datalabels: {
+          color: 'black',
+          anchor: 'center',
+          align: 'start',
+          offset: 0,
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          grid: {
+            display: false
+          },
+          display: false,
+          stacked: true
+        }
+      }
+    }
+  };
+
+  var pie_chart = {
+  type: 'pie',
+  data: {datasets: [{
+          data: {{ polar_area_data | safe }},
+          backgroundColor: ['#52FF87', '#52FFAF', '#5EFF52','#52FFCC','#00FF1A','#B7FF80','#80FF89','#80FFE2','#80F7FF','#80DEFF'],
+
+          label: 'млрд',
+        }],
+        labels: {{ labels_polar_area | safe }}
+  },
+  plugins: [ChartDataLabels],
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Прибыльные маршруты'
+      },
+      datalabels: {
+          color: 'black',
+          anchor: 'end',
+          align: 'end',
+          offset: 2,
+        },
+    }
+  },
+};
+
+  var pie_chart2 = {
+  type: 'pie',
+  data: { datasets: [{
+          data: {{ polar_area_data2 | safe }},
+          backgroundColor: [ '#1f10ca', '#7300bd', '#9e00ac', '#be0098', '#d70083', '#e9006e', '#f50058', '#fd0043', '#ff002c', '#ff000f'],
+          label: 'млрд',
+        }],
+        labels: {{ labels_polar_area2 | safe }}
+  },
+  plugins: [ChartDataLabels],
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Убыточные маршруты'
+      },
+      datalabels: {
+          color: 'white',
+          anchor: 'end',
+          align: 'start',
+          offset: 10,
+        },
+    }
+  },
+};
+
+var area = {
+  type: 'line',
+  data: {
+    datasets: [{
+      data: {{ fill_line_area_g | safe }},
+      backgroundColor: 'rgba(0,128,0, 0.5)',
+      label: 'Выручка,млн руб.',
+      fill: true,
+    },
+    {
+      data: {{ fill_line_area_o | safe }},
+      backgroundColor:'rgba(255,140,0,0.5)',
+      label: 'Расходы,млн руб.',
+      fill: true,
+    }],
+    labels: {{ labels_fill_line_area | safe }}
+
+  },
+  options: {
+    plugins: {
+      filler: {
+        propagate: false,
+      },
+      title: {
+        display: false,
+        text: (ctx) => 'drawTime: ' + ctx.chart.options.plugins.filler.drawTime
+      }
+    },
+    pointBackgroundColor: '#fff',
+    radius: 5,
+    interaction: {
+      intersect: false,
+    }
+  },
+};
+
+var ajax_chart = {
+  type: 'bar',
+  data: {
+    datasets: [{
+      data: {{ dynamic_bar_data | safe }},
+      backgroundColor: [ '#1f10ca', '#7300bd', '#9e00ac', '#be0098', '#d70083', '#e9006e', '#f50058', '#fd0043', '#ff002c', '#ff000f'],
+      label: 'Расход линии, млн руб',
+    }],
+    labels: {{ labels_dynamic_bar_data | safe }}
+  },
+  options: {
+    indexAxis: 'y',
+    elements: {
+      bar: {
+        borderWidth: 2,
+      }
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Динамическая таблица, AJAX'
+      }
+    }
+  },
+};
+
+var don_chart = {
+  type: 'doughnut',
+  data: { datasets: [{
+          data: {{ don_data | safe }},
+          backgroundColor: [ '#1f10ca', '#7300bd', '#9e00ac', '#be0098', '#d70083', '#e9006e', '#f50058', '#fd0043', '#ff002c', '#ff000f'],
+          label: 'млрд',
+        }
+        ],
+        labels: {{ don_lable | safe }}
+  },
+  plugins: [ChartDataLabels],
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Расходы в пределах линий'
+      },
+      datalabels: {
+          display: true,
+          color: 'white',
+          anchor: 'end',
+          align: 'start',
+          offset: 50,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          borderRadius: 3,
+          font: {
+          size: 18,
+
+        },
+        },
+    }
+  },
+};
+
+
+    window.onload = function () {
+      var ctx = document.getElementById('pie-chart1').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+      ctx = document.getElementById('pie-chart2').getContext('2d');
+      window.myPie = new Chart(ctx, bar_orange);
+      ctx = document.getElementById('pie-chart3').getContext('2d');
+      window.myPie = new Chart(ctx, bar_fin_res);
+      ctx = document.getElementById('pie-chart4').getContext('2d');
+      window.myPie = new Chart(ctx, bar_rent);
+      ctx = document.getElementById('pie-chart5').getContext('2d');
+      window.myPie = new Chart(ctx, bar_cargo);
+      ctx = document.getElementById('pie-chart6').getContext('2d');
+      window.myPie = new Chart(ctx, line_ch);
+      ctx = document.getElementById('pie-chart7').getContext('2d');
+      window.myPie = new Chart(ctx, gain_all);
+      ctx = document.getElementById('pie-chart8').getContext('2d');
+      window.myPie = new Chart(ctx, cost_all);
+      ctx = document.getElementById('pie-chart9').getContext('2d');
+      window.myPie = new Chart(ctx, pie_chart);
+      ctx = document.getElementById('pie-chart10').getContext('2d');
+      window.myPie = new Chart(ctx, pie_chart2);
+      ctx = document.getElementById('pie-chart11').getContext('2d');
+      window.myPie = new Chart(ctx, area);
+      ctx = document.getElementById('pie-chart12').getContext('2d');
+      window.myPie = new Chart(ctx, ajax_chart);
+      ctx = document.getElementById('pie-chart13').getContext('2d');
+      window.myPie = new Chart(ctx, don_chart);
+
+    };
+
+    $('#downloadPdf').click(function(event) {
+  // get size of report page
+  var reportPageHeight = $('#container').innerHeight();
+  var reportPageWidth = $('#container').innerWidth();
+
+  // create a new canvas object that we will populate with all other canvas objects
+  var pdfCanvas = $('<canvas />').attr({
+    id: "canvaspdf",
+    width: reportPageWidth,
+    height: reportPageHeight
+  });
+
+  // keep track canvas position
+  var pdfctx = $(pdfCanvas)[0].getContext('2d');
+  var pdfctxX = 0;
+  var pdfctxY = 0;
+  var buffer = 100;
+
+  // for each chart.js chart
+  $("canvas").each(function(index) {
+    // get the chart height/width
+    var canvasHeight = $(this).innerHeight();
+    var canvasWidth = $(this).innerWidth();
+
+    // draw the chart into the new canvas
+    pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+    pdfctxX += canvasWidth + buffer;
+
+    // our report page is in a grid pattern so replicate that in the new canvas
+    if (index % 2 === 1) {
+      pdfctxX = 0;
+      pdfctxY += canvasHeight + buffer;
+    }
+  });
+
+  // create new pdf and add our new canvas as an image
+  var pdf = new jsPDF('l', 'pt', [reportPageWidth, reportPageHeight]);
+  pdf.addImage($(pdfCanvas)[0], 'PNG', 0, 0);
+
+  // download the pdf
+  pdf.save('filename.pdf');
+});
+
+$('#rnd_data').click(function() { $.ajax({
+                  data: $(this).serialize(), // получаяем данные
+                  url: "{% url 'update_data' %}",
+                  // если успешно, то
+                  success: function (response) {
+                    var myChart = Chart.getChart('pie-chart12')
+                    myChart.data.datasets[0].data = response.ajax_data
+                    myChart.update();                 
+                  },
+                  // если ошибка, то
+                  error: function (response) {
+                      // предупредим об ошибке
+                      console.log(response.responseJSON.errors)
+                  }
+              });
+});
+
+$('#rnd_color').click(function() { $.ajax({
+                  data: $(this).serialize(), // получаяем данные
+                  url: "{% url 'update_color' %}",
+                  // если успешно, то
+                  success: function (response) {
+                    var myChart = Chart.getChart('pie-chart12')
+                    myChart.data.datasets[0].backgroundColor = response.ajax_color
+                    myChart.update();                 
+                  },
+                  // если ошибка, то
+                  error: function (response) {
+                      // предупредим об ошибке
+                      console.log(response.responseJSON.errors)
+                  }
+              });
+});
+
+$('#barPDF').click(function() { 
+
+  var pdfCanvas = $('<canvas />').attr({
+    id: "canvaspdf",
+    width: 1200,
+    height: 1200
+  });
+
+  var pdfctx = $(pdfCanvas)[0].getContext('2d');
+  var pdfctxX = 0;
+  var pdfctxY = 0;
+  var buffer = 100;
+
+  var canvasHeight = $('#pie-chart12').innerHeight();
+  var canvasWidth = $('#pie-chart12').innerWidth();
+
+    // draw the chart into the new canvas
+    pdfctx.drawImage($('#pie-chart12')[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+    pdfctxX += canvasWidth + buffer;
+
+      // create new pdf and add our new canvas as an image
+  var pdf = new jsPDF('l', 'pt', [1500, 1500]);
+  pdf.addImage($(pdfCanvas)[0], 'PNG', 0, 0);
+
+  // download the pdf
+  pdf.save('filename.pdf');
+
+});
+
+$(document).ready(function() {
+   $('#example').DataTable({
+      language: {
+        url: '{% static 'rus_datatable.json' %}'
+    },
+    "order": [[ 3, "asc" ]],
+    "columnDefs": [ { "type": "num", "targets": 3 } ]
+
+   });
+} );
+  </script>
+
+</body>
+
+</html>
