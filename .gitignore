@@ -47,6 +47,7 @@ var/
 .installed.cfg
 *.egg
 database/
+.idea
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
